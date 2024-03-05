@@ -15,29 +15,34 @@
 clean:
 	rm -rf public resources
 
-containerd-1.7.x:
-	git clone --branch v1.7.0 --depth 1 https://github.com/containerd/containerd.git containerd-1.7.x
+# clone all release/* branches from containerd/containerd repo, then
+# copy repo docs/ directory in each repo to content/docs/v${MAJOR}.${MINOR}.x
+# exclude 1.0.x and 1.1.x docs because they contain flask syntax
+refresh-docs:
+	git ls-remote https://github.com/containerd/containerd.git | \
+	grep --only-matching -E 'release\/.*' | \
+	while read -r BRANCH ; do \
+    	REPO_DIR=`echo $$BRANCH | tr / -` ; \
+    	X_VER=`echo $$BRANCH | tr -d "release/"` ; \
+		if [ $$X_VER != 1.0 ] && [ $$X_VER != "1.1" ]; then \
+			git clone --branch $$BRANCH --depth 1 https://github.com/containerd/containerd.git $$REPO_DIR ; \
+			rm -rf content/v$$X_VER.x ; \
+			cp -r $$REPO_DIR/docs content/v$$X_VER.x ; \
+			rm -rf $$REPO_DIR ; \
+		fi ; \
+	done ;
 
-content/v1.7.x: containerd-1.7.x
-	cp -r containerd-1.7.x/docs content/v1.7.x
-
-containerd-1.6.x:
-	git clone --branch v1.6.19 --depth 1 https://github.com/containerd/containerd.git containerd-1.6.x
-
-content/v1.6.x: containerd-1.6.x
-	cp -r containerd-1.6.x/docs content/v1.6.x
-
-serve: content/v1.7.x content/v1.6.x
+serve: refresh-docs
 	hugo server \
 		--buildDrafts \
 		--buildFuture \
 		--disableFastRender
 
-production-build: content/v1.7.x content/v1.6.x
+production-build: refresh-docs
 	hugo \
 	--minify
 
-preview-build: content/v1.7.x content/v1.6.x
+preview-build: refresh-docs
 	hugo \
 		--baseURL $(DEPLOY_PRIME_URL) \
 		--buildDrafts \
