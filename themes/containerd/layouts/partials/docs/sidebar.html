@@ -1,0 +1,30 @@
+{{- $currentUrl := .RelPermalink }}
+{{- $xVersion := index (findRE `v\d+\.\d+\.x` .RelPermalink) 0 }}
+{{- $docs       := where .Site.RegularPages "Section" "docs/v1.7.x" }}
+
+<aside class="column is-size-four is-hidden-touch is-fullheight section is-hidden-mobile">
+<p class="menu-label is-hidden-touch">Navigation</p>
+<ul class="menu-list">
+    <li>
+    <a href="/docs" class="">
+        <span class="icon"><i class="fa fa-home"></i></span> Docs Home
+    </a>
+    </li>
+    <li>
+    <a href="#" class="is-active">{{ $xVersion }}</a>
+
+    <ul>
+        {{- range $docs }}
+        <li>
+            {{- $isCurrentPage := eq $currentUrl .RelPermalink }}
+            <a class="dropdown-item{{ if $isCurrentPage }} is-active{{ end }}" href="{{ .RelPermalink }}">
+                {{.File.BaseFileName | humanize | title}}
+            </a>
+        </li>
+        {{- end }}
+    </ul>
+    </li>
+</ul>
+{{ .Site.RegularPages }}
+</aside>
+
