@@ -26,8 +26,10 @@ refresh-docs:
     	X_VER=`echo $$BRANCH | tr -d "release/"` ; \
 		if [ $$X_VER != 1.0 ] && [ $$X_VER != "1.1" ]; then \
 			git clone --branch $$BRANCH --depth 1 https://github.com/containerd/containerd.git $$REPO_DIR ; \
-			rm -rf content/v$$X_VER.x ; \
-			cp -r $$REPO_DIR/docs content/v$$X_VER.x ; \
+			rm -rf content/docs/v$$X_VER.x ; \
+			mkdir -p content/docs/v$$X_VER.x/docs ; \
+			cp -r $$REPO_DIR/docs content/docs/v$$X_VER.x/ ; \
+			cp $$REPO_DIR/README.md content/docs/v$$X_VER.x/_index.md ; \
 			rm -rf $$REPO_DIR ; \
 		fi ; \
 	done ;

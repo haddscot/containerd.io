@@ -1,5 +1,6 @@
 {{ define "title" }}
-containerd docs &ndash; {{ .Title }}
+{{- $title := .Title }}
+containerd docs &ndash; {{ cond (eq .Title "") (.File.BaseFileName | humanize | title) .Title }}
 {{ end }}
 
 {{ define "main" }}
@@ -7,19 +8,21 @@ containerd docs &ndash; {{ .Title }}
 {{- $pages := where .Site.Pages "Section" "docs" }}
 
 {{ partial "hero.html" . }}
-{{ partial "docs/tabs.html" (dict "pages" $pages "currentUrl" .RelPermalink) }}
 
 <article class="is-{{ $section }}-article">
   <div class="container">
     <div class="columns">
+      {{ partial "docs/sidebar.html" . }}
+
       <div class="column is-three-quarters is-full-mobile">
         <div class="content">
           <div class="is-hidden-desktop">
             {{ partial "docs/dropdown.html" . }}
           </div>
-    
+
           <section class="is-inner-content">
-            {{ .Content }}
+            <!-- remove instances of .md to fix links to other docs -->
+            {{ replaceRE `\.md` "" .Content | safeHTML }}
           </section>
         </div>
       </div>
