@@ -12,7 +12,6 @@ while read -r BRANCH ; do \
     # exclude versions 1.0.x and 1.1.x because they have flask syntax that hugo can't render
     if [ $X_VER != "1.0" ] && [ $X_VER != "1.1" ]; then \
         rm -rf $REPO_DIR ; \
-        echo $REPO_DIR ; \
         git clone --branch $BRANCH --depth 1 https://github.com/containerd/containerd.git $REPO_DIR ; \
         rm -rf content/docs/v$X_VER.x ; \
         mkdir -p content/docs/v$X_VER.x/docs ; \
