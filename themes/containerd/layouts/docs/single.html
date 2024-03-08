@@ -10,11 +10,11 @@ containerd docs &ndash; {{ cond (eq .Title "") (.File.BaseFileName | humanize | 
 {{ partial "hero.html" . }}
 
 <article class="is-{{ $section }}-article">
-  <div class="container">
+  <div class="container margin-top: 50px">
     <div class="columns">
       {{ partial "docs/sidebar.html" . }}
 
-      <div class="column is-three-quarters is-full-mobile">
+      <div class="column is-two-thirds is-full-mobile">
         <div class="content">
           <div class="is-hidden-desktop">
             {{ partial "docs/dropdown.html" . }}
@@ -31,7 +31,7 @@ containerd docs &ndash; {{ cond (eq .Title "") (.File.BaseFileName | humanize | 
         {{- if .TableOfContents }}
         <aside class="is-toc-container">
           <p class="is-size-4 is-toc-title">
-            Table of contents
+            On this page
           </p>
 
           <div id="toc">

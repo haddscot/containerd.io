@@ -1,3 +1,6 @@
+---
+title: README
+---
 ![containerd banner](https://raw.githubusercontent.com/cncf/artwork/master/containerd/horizontal/color/containerd-horizontal-color.png)
 
 [![GoDoc](https://godoc.org/github.com/containerd/containerd?status.svg)](https://godoc.org/github.com/containerd/containerd)
@@ -249,3 +252,4 @@ Please find all these core project documents, including the:
  * and [Contributing guidelines](https://github.com/containerd/project/blob/master/CONTRIBUTING.md)
 
 information in our [`containerd/project`](https://github.com/containerd/project) repository.
+

@@ -1,3 +1,6 @@
+---
+title: README
+---
 ![containerd banner](https://raw.githubusercontent.com/cncf/artwork/master/projects/containerd/horizontal/color/containerd-horizontal-color.png)
 
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/containerd/containerd)](https://pkg.go.dev/github.com/containerd/containerd)
@@ -330,3 +333,4 @@ information in our [`containerd/project`](https://github.com/containerd/project)
 
 Interested to see who is using containerd? Are you using containerd in a project?
 Please add yourself via pull request to our [ADOPTERS.md](./ADOPTERS.md) file.
+

@@ -15,24 +15,8 @@
 clean:
 	rm -rf public resources
 
-# clone all release/* branches from containerd/containerd repo, then
-# copy repo docs/ directory in each repo to content/docs/v${MAJOR}.${MINOR}.x
-# exclude 1.0.x and 1.1.x docs because they contain flask syntax
 refresh-docs:
-	git ls-remote https://github.com/containerd/containerd.git | \
-	grep --only-matching -E 'release\/.*' | \
-	while read -r BRANCH ; do \
-    	REPO_DIR=`echo $$BRANCH | tr / -` ; \
-    	X_VER=`echo $$BRANCH | tr -d "release/"` ; \
-		if [ $$X_VER != 1.0 ] && [ $$X_VER != "1.1" ]; then \
-			git clone --branch $$BRANCH --depth 1 https://github.com/containerd/containerd.git $$REPO_DIR ; \
-			rm -rf content/docs/v$$X_VER.x ; \
-			mkdir -p content/docs/v$$X_VER.x/docs ; \
-			cp -r $$REPO_DIR/docs content/docs/v$$X_VER.x/ ; \
-			cp $$REPO_DIR/README.md content/docs/v$$X_VER.x/_index.md ; \
-			rm -rf $$REPO_DIR ; \
-		fi ; \
-	done ;
+	./tools/refresh-docs.sh
 
 serve: refresh-docs
 	hugo server \
