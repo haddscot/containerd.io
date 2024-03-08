@@ -1,3 +1,6 @@
+---
+title: README
+---
 ![containerd banner light mode](https://raw.githubusercontent.com/cncf/artwork/master/projects/containerd/horizontal/color/containerd-horizontal-color.png#gh-light-mode-only)
 ![containerd banner dark mode](https://raw.githubusercontent.com/cncf/artwork/master/projects/containerd/horizontal/white/containerd-horizontal-white.png#gh-dark-mode-only)
 
@@ -341,3 +344,4 @@ information in our [`containerd/project`](https://github.com/containerd/project)
 
 Interested to see who is using containerd? Are you using containerd in a project?
 Please add yourself via pull request to our [ADOPTERS.md](./ADOPTERS.md) file.
+
