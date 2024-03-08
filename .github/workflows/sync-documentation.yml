@@ -27,3 +27,4 @@ jobs:
           title: Automated documentation sync
           body: This is an auto-generated PR to sync documentation in the main containerd project's docs/ directory.
           branch: doc-updates
+          base: ${{ github.head_ref }}
