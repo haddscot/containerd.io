@@ -1,0 +1,30 @@
+name: Sync-Documentation
+
+on:
+  schedule:
+    - cron:  '0 3 * * *'
+  pull_request:
+    branches: [ main ] 
+
+jobs:          
+  update-documentationmd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Update documentation
+        id: vars
+        run: make refresh-docs
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            sync documentation with containerd/containerd
+
+            Signed-off-by: Scott Haddlesey <haddscot@amazon.com>
+          committer: Scott Haddlesey <haddscot@amazon.com>
+          author: Scott Haddlesey <haddscot@amazon.com>
+          title: Automated documentation sync
+          body: This is an auto-generated PR to sync documentation in the main containerd project's docs/ directory.
+          branch: doc-updates
+          base: ${{ github.head_ref }}
