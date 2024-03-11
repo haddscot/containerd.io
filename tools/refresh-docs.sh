@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # 1. clone all release/* branches (starting from 1.2.x) from containerd/containerd repo
 # 2. copy docs/ directory in each repo to content/docs/v${MAJOR}.${MINOR}.x
 # 3. copy README to content/docs/v${MAJOR}.${MINOR}.x/_index.md
@@ -22,7 +24,7 @@ while read -r BRANCH ; do \
         # this is required for nested-menu-partial to behave correctly
         find content/docs/v$X_VER.x -type d -execdir bash -c 'name=$0;printf "%s\ntitle: ${name##*/}\n%s\n" "---" "---" > "$name/_index.md";' '{}' \; ; \
         # copy images to static/ since they can't be read from content/
-        rsync --remove-source-files --files-from <(find content/docs/v$X_VER.x -type f -exec file --mime-type {} \+ | awk -F: '{if ($2 ~/image\//) print $1}') . "static/"
+        rsync --remove-source-files --files-from <(find content/docs/v"$X_VER".x -type f -exec file --mime-type {} \+ | awk -F: '{if ($2 ~/image\//) print $1}') . "static/"
         rm -rf $REPO_DIR ; \
     fi ; \
 done ;
