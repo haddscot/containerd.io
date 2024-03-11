@@ -16,9 +16,16 @@ while read -r BRANCH ; do \
         rm -rf content/docs/v$X_VER.x ; \
         mkdir -p content/docs/v$X_VER.x/docs ; \
         cp -r $REPO_DIR/docs content/docs/v$X_VER.x/ ; \
-        # cp $REPO_DIR/README.md content/docs/v$X_VER.x/_index.md ; \
+        # copy README into v$X_VER.x/_index.md with a title added
         printf '%s\ntitle: README\n%s\n%s\n%s\n' "---" "---" "$(cat $REPO_DIR/README.md)" > content/docs/v$X_VER.x/_index.md
+        # create titled _index.md files in all subdirs so that hugo sees them as "sections" --
+        # this is required for nested-menu-partial to behave correctly
         find content/docs/v$X_VER.x -type d -execdir bash -c 'name=$0;printf "%s\ntitle: ${name##*/}\n%s\n" "---" "---" > "$name/_index.md";' '{}' \; ; \
+        # copy images to static/ since they can't be read from content/
+        rsync --remove-source-files --files-from <(find content/docs/v$X_VER.x -type f -exec file --mime-type {} \+ | awk -F: '{if ($2 ~/image\//) print $1}') . "static/"
         rm -rf $REPO_DIR ; \
     fi ; \
 done ;
+# move images from static/content/docs/v$X_VER.x/... to static/docs/v$X_VER.x/... so that docs find them where they expect to see them
+rm -rf static/docs
+mv static/content/* static/

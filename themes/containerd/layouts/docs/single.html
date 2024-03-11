@@ -23,11 +23,6 @@ containerd docs &ndash; {{ cond (eq .Title "") (.File.BaseFileName | humanize | 
           <section class="is-inner-content">
             <!-- remove instances of .md to fix links to other docs -->
             {{- $content := (replaceRE `\.md` "" .Content) }}
-            <!-- point image links at GH repo since hugo is dumb and won't find non md files in content/ -->
-            {{- $xVersion := index (findRE `v\d+\.\d+\.x` .RelPermalink) 0 }}
-            {{- $xVersion := replace (replace $xVersion "v" "") ".x" "" }}
-            {{- $content := (replaceRE `img src=\"((?!https)[^\"]*)` "$1https://github.com/containerd/containerd/blob/release/$xVersion/$2?raw=true" $content) }}
-
             {{ $content | safeHTML }}
           </section>
         </div>
